@@ -12,6 +12,7 @@
   @stack('prepend-style')
   @include('includes.admin.style')
   @stack('addon-style')
+  
 </head>
 
 <body class="bg-default">
@@ -84,6 +85,17 @@
         <div class="col-lg-6 col-md-8">
           <div class="card bg-secondary border-0">
             <div class="card-body px-lg-5 py-lg-5">
+              @if ($errors->any())
+  <div class="alert alert-danger">
+    <strong>Terjadi kesalahan:</strong>
+    <ul class="mb-0">
+      @foreach ($errors->all() as $error)
+        <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </div>
+@endif
+
               <form action="{{ route('user.register-post') }}" role="form" method="POST">
                 @csrf
                 <div class="form-group">
@@ -98,14 +110,22 @@
                 </div>
                 <div class="form-group">
                   <div class="input-group input-group-merge input-group-alternative mb-3">
+                    <!-- <input type="text" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" name="name" id="name" placeholder="Nama">
+                    @error('name')
+                      <div class="invalid-feedback">
+                        {{ $message }}
+                      </div>
+                    @enderror -->
                     <input type="text" value="{{ old('name') }}" class="form-control @error('name') is-invalid @enderror" name="name" id="name" placeholder="Nama">
                     @error('name')
                       <div class="invalid-feedback">
                         {{ $message }}
                       </div>
                     @enderror
+
                   </div>
                 </div>
+                
                 <div class="form-group">
                   <div class="input-group input-group-merge input-group-alternative mb-3">
                     <input type="text" value="{{ old('username') }}" class="form-control @error('username') is-invalid @enderror" name="username" id="username" placeholder="Username">
@@ -195,19 +215,38 @@
   </footer>
 
   @stack('prepend-script')
-  @include('includes.admin.script')
-  @stack('addon-script')
+@include('includes.admin.script')
+@stack('addon-script')
 
-  <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-  <script>
-    $(function() {
-      $.ajaxSetup({
-        headers: {
-          'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
-        }
-      });
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+@if (session('success'))
+<script>
+  Swal.fire({
+    icon: 'success',
+    title: 'Berhasil!',
+    text: '{{ session('success') }}',
+    confirmButtonColor: '#3085d6',
+    confirmButtonText: 'OK'
+  }).then((result) => {
+    if (result.isConfirmed) {
+      window.location.href = '{{ url("/pengaduan") }}';
+    }
+  });
+</script>
+@endif
+
+<script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<script>
+  $(function () {
+    $.ajaxSetup({
+      headers: {
+        'X-CSRF-TOKEN': jQuery('meta[name="csrf-token"]').attr('content')
+      }
     });
-  </script>
+  });
+</script>
+
 
 </body>
 

@@ -3,7 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Response;
 
-use App\Http\Controllers\Admin\PengaduanController;
+// use App\Http\Controllers\Admin\PengaduanController;
+
+// Route::post('/pengaduan', [PengaduanController::class, 'store'])
+//     ->name('pengaduan.store');
+
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -36,6 +41,7 @@ Route::middleware(['guest'])->group(function () {
     Route::post('/getkecamatan', [\App\Http\Controllers\IndoRegionController::class, 'getkecamatan'])->name('getkecamatan');
     Route::post('/getkabupaten', [\App\Http\Controllers\IndoRegionController::class, 'getkabupaten'])->name('getkabupaten');
     Route::post('/register/auth', [\App\Http\Controllers\User\UserController::class, 'register_post'])->name('user.register-post');
+    
 });
 
 Route::middleware(['isMasyarakat'])->group(function () {

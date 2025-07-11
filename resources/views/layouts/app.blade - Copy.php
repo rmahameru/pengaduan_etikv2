@@ -66,38 +66,13 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
        
-     @auth('masyarakat')
-  <div class="d-flex align-items-center ms-3">
-    <span 
-      class="btn btn-primary d-flex align-items-center justify-content-center me-2" 
-      style="
-          min-width: 50px;
-          height: 40px;
-          border-radius: 8px;
-          font-size: 14px;
-          font-family: Arial;
-      ">
-      <i class="bi bi-person-circle me-2" style="font-size: 18px;"></i>
-      {{ Auth::guard('masyarakat')->user()->name }}
-    </span>
-    <a href="{{ route('user.logout') }}" 
-       class="btn btn-danger d-flex align-items-center justify-content-center" 
-       style="
-          min-width: 50px;
-          height: 40px;
-          border-radius: 8px;
-          font-size: 14px;
-          font-family: Arial;
-       ">
-       Logout
-    </a>
-  </div>
-@else
-  <a href="{{ url('register')}}" class="appointment-btn scrollto" style="font-family: Arial;">Register</a>
-  <a href="{{ url('login')}}" class="appointment-btn scrollto" style="font-family: Arial;">Login</a>
-@endauth
+      @auth('masyarakat')
+        <a href="{{ route('user.logout')}}" class="appointment-btn scrollto" style="font-family: Arial;">Logout</a>
+      @else
+          <a href="{{ url('register')}}" class="appointment-btn scrollto" style="font-family: Arial;">Register</a>
 
-
+        <a href="{{ url('login')}}" class="appointment-btn scrollto" style="font-family: Arial;">Login</a>
+      @endauth
 
     </div>
   </header><!-- End Header -->

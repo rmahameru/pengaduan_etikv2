@@ -149,7 +149,7 @@ class UserController extends Controller
 
         $validate = Validator::make($data, [
             'nik' => ['required', 'min:16', 'max:16'],
-            'nama_pelapor' => ['required', 'string'],
+            'name' => ['required', 'string'],
             'username' => ['required', 'string'],
             'email' => ['required', 'email', 'string'],
             'telp' => ['required', 'regex:/(08)[0-9]/'],
@@ -162,22 +162,23 @@ class UserController extends Controller
         }
 
         // Konversi nilai dari form ke format yang cocok untuk database
-        $jenis_kelamin_singkat = $data['jenis_kelamin'] === 'Laki-laki' ? 'L' : 'P';
+        // $jenis_kelamin_singkat = $data['jenis_kelamin'] === 'Laki-laki' ? 'L' : 'P';
 
 
         Masyarakat::create([
             'nik' => $data['nik'],
-            'nama_pelapor' => $data['nama_pelapor'],
+            'name' => $data['name'],
             'username' => strtolower($data['username']),
             'email' => $data['email'],
             'telp' => $data['telp'],
-            'jenis_kelamin' => $jenis_kelamin_singkat,
+            'jenis_kelamin' => $data['jenis_kelamin'],
             'password' => Hash::make($data['password']),
         ]);
 
         $masyarakat = Masyarakat::where('email', $data['email'])->first();
 
         Auth::guard('masyarakat')->login($masyarakat);
+        return redirect()->back()->with('success', 'Pendaftaran berhasil!');
 
         return redirect('/pengaduan');
     }
@@ -221,6 +222,8 @@ class UserController extends Controller
     date_default_timezone_set('Asia/Bangkok');
 
     $pengaduan = Pengaduan::create([
+        'nama_pelapor' => $data['nama_pelapor'],
+        'nama_pelanggar' => $data['nama_pelanggar'],
         'tgl_pengaduan' => date('Y-m-d H:i:s'),
         'nik' => Auth::guard('masyarakat')->user()->nik,
         'judul_laporan' => $data['kategori_pelanggaran'], // e.g. use kategori as judul
